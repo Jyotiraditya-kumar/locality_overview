@@ -1,0 +1,18 @@
+[server]
+enableCORS = true
+enableStaticServing = true
+
+[theme]
+base = "light"
+primaryColor = "#c60dff"
+backgroundColor = "#171d30"
+secondaryBackgroundColor = "#5900f2"
+textColor = "#ffffff"
+font = "sans serif"
+
+[client]
+caching = true
+showErrorDetails = false
+
+[runner]
+fastReruns = true
