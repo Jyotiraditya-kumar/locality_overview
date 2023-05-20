@@ -19,7 +19,7 @@ if 'city_last_clicked' not in st.session_state:
     st.session_state['city_last_clicked'] = None
 
 
-def generate_default_map(lat=12.918877105665517, lng=78.64305106225419, zoom=18):
+def generate_default_map(lat=28.59556260216598, lng=77.21409889459706, zoom=12):
     map_satellite = folium.Map(
         location=[lat, lng], zoom_start=zoom,
         width='50%',
