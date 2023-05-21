@@ -430,7 +430,7 @@ def _remove_top_padding_():
     st.markdown("""
         <style>
                .css-z5fcl4 {
-                    padding-top: 2rem;
+                    padding-top: 4rem;
                     padding-bottom: 0px;
                     padding-left: 5rem;
                     padding-right: 5rem;
