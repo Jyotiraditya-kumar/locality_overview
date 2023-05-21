@@ -31,10 +31,12 @@ def generate_default_map(lat=28.59556260216598, lng=77.21409889459706, zoom=12):
     map_satellite = folium.Map(
         location=[lat, lng], zoom_start=zoom,
         width='50%',
+        height='100%',
+        max_bounds=True, position='absolute',
         tiles='https://api.mapbox.com/styles/v1/lsda3m0ns/clgys7avm00fy01p6gw2i3gw9/tiles/256/{z}/{x}/{y}@2x?access_token=' + API_KEY,
         attr='Satellite data')
 
-    map_building_road_mask = folium.Map(location=[lat, lng], zoom_start=zoom, width='100%',
+    map_building_road_mask = folium.Map(location=[lat, lng], zoom_start=zoom, width='100%', height='100%',
                                         tiles='https://api.mapbox.com/styles/v1/lsda3m0ns/clf51knji005901q66lwmy0yj/tiles/256/{z}/{x}/{y}@2x?access_token=' + API_KEY,
                                         attr='Mapbox Light',
                                         )
@@ -119,7 +121,7 @@ def get_maps_by_polygon(city_name, radius, zoom):
     area_km2 = {}
     area_km2['name'] = name
     for key, value in area.items():
-        area_km2[f'{key} km^2'] = value
+        area_km2[f'{key} sq km'] = value
     # st.success(f'Map Extracted {datetime.datetime.now()}')
     # st.success(f'Extracted {city_name} polygons')
 
@@ -178,7 +180,8 @@ def get_polygon_and_area(lat, lng, zoom, radius, polygon=None):
 def city_submit_callback(city, radius, zoom_level):
     try:
         radius = float(radius)
-    except:
+    except Exception as e:
+        print(e)
         st.sidebar.error('Enter proper radius')
         st.stop()
     st.session_state['city_radius'] = str(radius)
@@ -244,7 +247,8 @@ def main_loop():
         city = st.sidebar.text_input("Locality", value=st.session_state.get('city_name', ''),
                                      placeholder='locality..',
                                      autocomplete='bengaluru, hapur, aizawl')
-        radius = st.sidebar.text_input('Radius (in meters)', help='radius in meters', value=st.session_state.get('city_radius', ''),
+        radius = st.sidebar.text_input('Radius (in meters)', help='radius in meters',
+                                       value=st.session_state.get('city_radius', ''),
                                        key='city_radius_')
 
         # city_ = st.sidebar.multiselect("City Name",
@@ -319,7 +323,7 @@ def get_legend():
 
     <div id='maplegend' class='maplegend' 
         style='position: absolute; z-index:9999; border:2px solid grey; background-color:rgba(255, 255, 255, 0.8);
-         border-radius:6px; padding: 10px; font-size:14px; right: 30px; bottom: 30px;'>
+         border-radius:6px; padding: 10px; font-size:14px; right: 30px; top: 30px;'>
 
     <div class='legend-title'>Legend</div>
     <div class='legend-scale'>
@@ -418,11 +422,11 @@ def add_map_to_layout(map1, map2, lat, lng, zoom_level, area_info, marker=None):
     # testmarker = folium.Marker([12.921045075125779, 77.64285922050476])
     if marker is not None:
         marker.add_to(m)
-    f = folium.Figure(width='90%', ratio='50%')
+    f = folium.Figure(figsize=(10, 5))
     m.add_to(f)
     legend.add_to(f)
-    st_folium.st_folium(f, width='10%', key='2')
-    if area_info is not None and  area_info.empty != True:
+    st_folium.st_folium(f, width='10%', height=700, key='2')
+    if area_info is not None and area_info.empty != True:
         st.dataframe(area_info, use_container_width=True)
 
 
@@ -430,19 +434,31 @@ def _remove_top_padding_():
     st.markdown("""
         <style>
                .css-z5fcl4 {
-                    padding-top: 4rem;
-                    padding-bottom: 0px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
                     padding-left: 5rem;
                     padding-right: 5rem;
                 }
-               .css-1d391kg {
-                    padding-top: 3.5rem;
-                    padding-right: 1rem;
-                    padding-bottom: 3.5rem;
-                    padding-left: 1rem;
-                }
                 .css-otxysd{
                 display:none;!important
+                }
+                @media only screen and (max-height: 1000px) {
+                iframe{
+                max-height:85vh;
+                overflow:hidden;
+                }
+                }
+                @media only screen and (max-height: 900px) {
+                iframe{
+                max-height:80vh;
+                overflow:hidden;
+                }
+                }
+                @media only screen and (max-height: 800px) {
+                iframe{
+                max-height:75vh;
+                overflow:hidden;
+                }
                 }
         </style>
         """, unsafe_allow_html=True)
@@ -494,5 +510,5 @@ if __name__ == "__main__":
     )
     _remove_top_padding_()
     _max_width_()
-    _dual_map_with_()
+    # _dual_map_with_()
     main_loop()
