@@ -65,7 +65,7 @@ def get_maps_by_lat_lng_buffer(lat, lng, zoom, radius):
     area = dict(building_area=building_area, road_area=road_area, total_area=total_area)
     area_km2 = {}
     for key, value in area.items():
-        area_km2[f'{key} sq km'] = value
+        area_km2[f'{key} (sq km)'] = value
     # st.success(f'Map Extracted {datetime.datetime.now()}')
     return satellite_map, building_map, area_km2
 
@@ -121,7 +121,7 @@ def get_maps_by_polygon(city_name, radius, zoom):
     area_km2 = {}
     area_km2['name'] = name
     for key, value in area.items():
-        area_km2[f'{key} sq km'] = value
+        area_km2[f'{key} (sq km)'] = value
     # st.success(f'Map Extracted {datetime.datetime.now()}')
     # st.success(f'Extracted {city_name} polygons')
 
