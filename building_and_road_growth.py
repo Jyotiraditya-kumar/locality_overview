@@ -212,7 +212,7 @@ def get_tile_road_building_area1(tile: WMTS_TILE):
 
 
 def get_tile_road_building_area(tile: WMTS_TILE):
-    lambda_url = f"https://am5a7ipqwtbms5wzuo5bxapwta0sespgk.lambda-url.us-east-2.on.aws/?x={tile.x}&y={tile.y}&z={int(float(tile.zoom))}&api_key={API_KEY}"
+    lambda_url = f"https://am5a7ipqwtbms5wzuo5bxapwta0espgk.lambda-url.us-east-2.on.aws//?x={tile.x}&y={tile.y}&z={int(float(tile.zoom))}&api_key={API_KEY}"
     response = requests.get(lambda_url)
     print(lambda_url)
     if response.status_code == 200:
