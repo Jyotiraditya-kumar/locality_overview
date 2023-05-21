@@ -63,7 +63,7 @@ def get_maps_by_lat_lng_buffer(lat, lng, zoom, radius):
     area = dict(building_area=building_area, road_area=road_area, total_area=total_area)
     area_km2 = {}
     for key, value in area.items():
-        area_km2[f'{key} km^2'] = value
+        area_km2[f'{key} sq km'] = value
     # st.success(f'Map Extracted {datetime.datetime.now()}')
     return satellite_map, building_map, area_km2
 
@@ -244,7 +244,7 @@ def main_loop():
         city = st.sidebar.text_input("Locality", value=st.session_state.get('city_name', ''),
                                      placeholder='locality..',
                                      autocomplete='bengaluru, hapur, aizawl')
-        radius = st.sidebar.text_input('Radius', help='radius in meters', value=st.session_state.get('city_radius', ''),
+        radius = st.sidebar.text_input('Radius (in meters)', help='radius in meters', value=st.session_state.get('city_radius', ''),
                                        key='city_radius_')
 
         # city_ = st.sidebar.multiselect("City Name",
@@ -266,7 +266,7 @@ def main_loop():
     elif select_by == 'Coordinates':
         lat = st.sidebar.text_input('Latitude', value=st.session_state.get('coords', ',').split(',')[0])
         lng = st.sidebar.text_input('Longitude', value=st.session_state.get('coords', ',').split(',')[1])
-        radius_ = st.sidebar.text_input('Radius', help='radius in meters',
+        radius_ = st.sidebar.text_input('Radius (in meters)', help='radius in meters',
                                         value=st.session_state.get('point_radius', ''),
                                         key='point_radius_')
         zoom_level = '18'  # st.sidebar.text_input('Zoom Level', help='radius in meters', value='18')
@@ -422,15 +422,16 @@ def add_map_to_layout(map1, map2, lat, lng, zoom_level, area_info, marker=None):
     m.add_to(f)
     legend.add_to(f)
     st_folium.st_folium(f, width='10%', key='2')
-    st.dataframe(area_info, use_container_width=True)
+    if area_info is not None and  area_info.empty != True:
+        st.dataframe(area_info, use_container_width=True)
 
 
 def _remove_top_padding_():
     st.markdown("""
         <style>
                .css-z5fcl4 {
-                    padding-top: 2rem;
-                    padding-bottom: 10rem;
+                    padding-top: 2px;
+                    padding-bottom: 0px;
                     padding-left: 5rem;
                     padding-right: 5rem;
                 }
@@ -439,6 +440,9 @@ def _remove_top_padding_():
                     padding-right: 1rem;
                     padding-bottom: 3.5rem;
                     padding-left: 1rem;
+                }
+                .css-otxysd{
+                display:none;!important
                 }
         </style>
         """, unsafe_allow_html=True)
