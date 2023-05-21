@@ -1,0 +1,28 @@
+credentials:
+usernames:
+jyotiraditya:
+email: tyagijyotiraditya@gmail.com
+name: Jyotiraditya tyagi
+password: 'r115087820016' # 'congrats_you_cracked_my_pass' # To be replaced with hashed password
+roles:
+- admin
+- editor
+- developer
+guest:
+email: guest@gmail.com
+name: I am a guest
+password: 'Jt@123456' #'some_cool_password' # To be replaced with hashed password
+
+spatic:
+email: spatic@gmail.com
+name: spatic
+password: '$2b$12$g8NZxXOOSnPes3sJGeA4e.oq.ush0RowacetS43IgksL35gYEy9uy' #'some_cool_password' # To be replaced with hashed password
+
+cookie:
+expiry_days: 30
+key: some_signature_key
+name: some_cookie_name
+
+preauthorized:
+emails:
+- tyagijyotiraditya@gmail.com
